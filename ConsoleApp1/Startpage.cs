@@ -4,8 +4,6 @@ using System.Text.RegularExpressions;
 using Finance;
 using Microsoft.EntityFrameworkCore;
 
-namespace Startpage
-{
     class Program
     {
         static void Main(string[] args)
