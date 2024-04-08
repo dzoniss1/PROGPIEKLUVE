@@ -38,12 +38,17 @@ namespace Finance
             Console.WriteLine("1. Algu izmaksa darbiniekiem");
             Console.WriteLine("2. Ievadīt jaunus izdevumus");
             Console.WriteLine("3. Pārskatīt izdevumus");
-            Console.WriteLine("4. Iziet");
+            Console.WriteLine("4. Atpakaļ");
+            Console.WriteLine("5. Beigt darbu. ");
 
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
                 Console.WriteLine("Darbs pabeigts");
                 return;
+            }
+            if (choice == 4)
+            {
+                return; // Atgriezties, ja ievada "4"
             }
 
             switch (choice)
@@ -58,8 +63,11 @@ namespace Finance
                 case 3:
                     ViewExpenses();
                     break;
+                case 5:
+                    ExitProgram();
+                    break;
                 default:
-                    Console.WriteLine("Darbs pabeigts");
+                    Console.WriteLine("Nepatiess skaitlis");
                     break;
             }
         }
@@ -80,7 +88,18 @@ namespace Finance
             {
                 totalSalary += employee.Salary;
             }
-            Console.WriteLine($"Kopējā darbinieku algu summa NETO: {totalSalary}");
+            Console.WriteLine($"Kopējā darbinieku algu summa NETO: {totalSalary}\n");
+
+            Console.WriteLine("Vai vēlaties turpināt darbu? (y/n)"); //Ja "y", tad programma turpina strādat, ja "n" tad aizveras
+            string continueChoice = Console.ReadLine();
+            if (continueChoice.ToLower() == "y")
+            {
+                ManageFinance();
+            }
+            else
+            {
+                Console.WriteLine("Darbs pabeigts.");
+            }
         }
 
         public void AddExpense()
@@ -97,7 +116,7 @@ namespace Finance
                     return;
                 }
 
-                DateTime dateAdded = DateTime.Now;
+                DateTime dateAdded = DateTime.Now; //Nolasa datumu, kad info saglabāts
 
                 SaveExpenseToDatabase(context, description, amount, dateAdded);
 
@@ -147,6 +166,7 @@ namespace Finance
 
                    
                     var expenses = context.Expenses.ToList();
+                    decimal totalExpenses = 0;
 
                     foreach (var expense in expenses)
                     {
@@ -155,12 +175,17 @@ namespace Finance
                         Console.WriteLine($"Summa: {expense.Amount}");
                         Console.WriteLine($"Datums: {expense.DateAdded}\n");
                         Console.WriteLine();
+
+                        totalExpenses += expense.Amount;
                     }
 
                     if (expenses.Count == 0)
                     {
                         Console.WriteLine("Nav reģistrētu izdevumu.");
                     }
+
+
+                    Console.WriteLine($"Kopējās izmaksas: {totalExpenses}");
                 }
             }
             catch (Exception ex)
@@ -177,6 +202,11 @@ namespace Finance
             {
                 Console.WriteLine("Darbs pabeigts.");
             }
+        }
+        public static void ExitProgram() //Funkcija programmas aizvēršanai
+        {
+            Console.WriteLine("Darbs beigts!");
+            Environment.Exit(0);
         }
 
     }

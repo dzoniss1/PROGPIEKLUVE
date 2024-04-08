@@ -37,7 +37,9 @@ public class EmployeeManager
             Console.WriteLine("3. Dzēst darbinieku");
             Console.WriteLine("4. Skatīt darbiniekus");
             Console.WriteLine("5. Meklēt darbinieku");
-            Console.WriteLine("6. Beigt darbu");
+            Console.WriteLine("6. Atpakaļ");
+            Console.WriteLine("7. Beigt darbu.");
+
 
             if (!int.TryParse(Console.ReadLine(), out int choice))
             {
@@ -63,15 +65,21 @@ public class EmployeeManager
                     SearchEmployee();
                     break;
                 case 6:
-                    continueLoop = false;
+                    continueLoop = false; //Atgriež loop uz Startpage
+                    break;
+                case 7:
+                    ExitProgram();
                     break;
                 default:
                     Console.WriteLine("Invalid choice");
                     break;
             }
         }
-
-        Console.WriteLine("Program ended. Goodbye!");
+    }
+    public static void ExitProgram() //Funkcija programmas aizvēršanai
+    {
+        Console.WriteLine("Darbs beigts!");
+        Environment.Exit(0);
     }
     private void AddNewEmployee()
     {
@@ -85,7 +93,7 @@ public class EmployeeManager
             {
                 Console.WriteLine("Pievienojiet pilnu vārdu un uzvārdu, piemēram, Jānis Bērziņš:");
                 name = Console.ReadLine();
-                if (name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length < 2)
+                if (name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length < 2) //Obligāti diviem vārdiem jābūt, lai vards uzvards
                 {
                     Console.WriteLine("Lūdzu ievadiet pilnu vārdu!");
                     continue;
@@ -176,7 +184,7 @@ public class EmployeeManager
 
                 if (!decimal.TryParse(salaryInput, out decimal salary))
                 {
-                    Console.WriteLine("Nepareizs algas formāts!");
+                    Console.WriteLine("Nepareizs algas formāts!"); //Lai alga būtu ar max 2 cipariem aiz komata
                     return;
                 }
                 employee.Salary = salary;
@@ -256,7 +264,7 @@ public class EmployeeManager
             }
             else
             {
-                Console.WriteLine("No employees found with the specified name");
+                Console.WriteLine("Darbinieks ar šādu ID netika atrasts");
             }
         }
     }
